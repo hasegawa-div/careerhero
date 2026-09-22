@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}ES添削履歴{% endblock %}
+
+{% block content %}
+
+<h2>📚 ES添削履歴</h2>
+
+<p>
+    <a href="{{ url_for('dashboard') }}">
+        🏠 ダッシュボードに戻る
+    </a>
+</p>
+
+
+<p>これまでにAIに添削してもらったESを確認できます。</p>
+
+{% if histories %}
+
+    {% for history in histories %}
+
+        <div class="ai-history-card">
+
+            <h3>🏢 {{ history["company"] }}</h3>
+
+            <p class="ai-date">
+                {{ history["created_at"] }}
+            </p>
+
+            <p>
+                <strong>❓ 設問</strong>
+            </p>
+
+            <p>
+                {{ history["question"] }}
+            </p>
+
+            <hr>
+
+            <p>
+                <strong>📝 添削前のES</strong>
+            </p>
+
+            <div class="ai-history-result">
+                {{ history["es_text"] }}
+            </div>
+
+            <hr>
+
+            <p>
+                <strong>🤖 AI添削結果</strong>
+            </p>
+
+            <div class="ai-history-result">
+                {{ history["result"] }}
+            </div>
+
+            <form class="es-delete-form"
+                  method="POST"
+                  action="{{ url_for('delete_es_review', review_id=history['id']) }}"
+                  onsubmit="return confirm('この添削履歴を削除しますか？');">
+                <button type="submit">
+                    🗑️ この履歴を削除
+                </button>
+            
+            
+            </form>
+
+        </div>
+
+    {% endfor %}
+
+{% else %}
+
+    <p>まだESの添削を行っていません。</p>
+
+{% endif %}
+
+<p>
+    <a href="{{ url_for('es_review') }}">
+        ✏️ ESを添削する
+    </a>
+</p>
+
+
+{% endblock %}

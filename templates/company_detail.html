@@ -1,0 +1,273 @@
+{% extends "base.html" %}
+
+{% block title %}企業詳細{% endblock %}
+
+{% block content %}
+
+<p>
+    <a href="{{ url_for('companies') }}">
+        ← 応募企業一覧に戻る
+    </a>
+</p>
+
+<p>
+    <a href="{{ url_for('dashboard') }}">
+        🏠 ダッシュボードに戻る
+    </a>
+</p>
+
+
+<h2>🏢 {{ company["company_name"] }}</h2>
+
+<div class="ai-history-card">
+
+    <p>
+        <strong>📊 応募状況：</strong>
+        {{ company["status"] }}
+    </p>
+
+    <p>
+        <strong>📅 締切：</strong>
+
+        {% if company["deadline"] %}
+            {{ company["deadline"] }}
+        {% else %}
+            未設定
+        {% endif %}
+    </p>
+
+    <hr>
+
+    <h3>📝 企業メモ</h3>
+
+    {% if company["memo"] %}
+        <div class="ai-history-result">
+            {{ company["memo"] }}
+        </div>
+    {% else %}
+        <p>まだメモがありません。</p>
+    {% endif %}
+
+</div>
+<hr>
+
+<h3>📄 この企業のES</h3>
+
+{% if es_histories %}
+
+    {% for es in es_histories %}
+
+        <div class="ai-history-card">
+
+            <p class="ai-date">
+                {{ es["created_at"] }}
+            </p>
+
+            <p>
+                <strong>❓ 設問</strong>
+            </p>
+
+            <div class="ai-history-result">
+                {{ es["question"] }}
+            </div>
+
+            <p>
+                <strong>📝 ES本文</strong>
+            </p>
+
+            <div class="ai-history-result">
+                {{ es["result"] }}
+            </div>
+
+        </div>
+
+    {% endfor %}
+
+{% else %}
+
+    <p>この企業のESはまだ作成されていません。</p>
+
+{% endif %}
+<hr>
+
+<h3>📝 この企業のガクチカ</h3>
+
+{% if gakuchika_histories %}
+
+    {% for gakuchika in gakuchika_histories %}
+
+        <div class="ai-history-card">
+
+            <p class="ai-date">
+                {{ gakuchika["created_at"] }}
+            </p>
+
+            <p>
+                <strong>📝 ガクチカ本文</strong>
+            </p>
+
+            <div class="ai-history-result">
+                {{ gakuchika["generated_text"] }}
+            </div>
+
+        </div>
+
+    {% endfor %}
+
+{% else %}
+
+    <p>この企業向けのガクチカはまだ作成されていません。</p>
+
+{% endif %}
+<hr>
+
+<h3>🎤 この企業の面接回答</h3>
+
+{% if interview_histories %}
+
+    {% for interview in interview_histories %}
+
+        <div class="ai-history-card">
+
+            <p class="ai-date">
+                {{ interview["created_at"] }}
+            </p>
+
+            <p><strong>① 自己紹介</strong></p>
+            <div class="ai-history-result">
+                {{ interview["q1"] }}
+            </div>
+
+            <p><strong>② 学生時代に力を入れたこと</strong></p>
+            <div class="ai-history-result">
+                {{ interview["q2"] }}
+            </div>
+
+            <p><strong>③ 長所</strong></p>
+            <div class="ai-history-result">
+                {{ interview["q3"] }}
+            </div>
+
+            <p><strong>④ 短所</strong></p>
+            <div class="ai-history-result">
+                {{ interview["q4"] }}
+            </div>
+
+            <p><strong>⑤ 志望業界</strong></p>
+            <div class="ai-history-result">
+                {{ interview["q5"] }}
+            </div>
+
+            <p><strong>⑥ 志望企業</strong></p>
+            <div class="ai-history-result">
+                {{ interview["q6"] }}
+            </div>
+
+            <p><strong>⑦ 失敗経験</strong></p>
+            <div class="ai-history-result">
+                {{ interview["q7"] }}
+            </div>
+
+            <p><strong>⑧ チームで協力した経験</strong></p>
+            <div class="ai-history-result">
+                {{ interview["q8"] }}
+            </div>
+
+            <p><strong>⑨ 自分から行動した経験</strong></p>
+            <div class="ai-history-result">
+                {{ interview["q9"] }}
+            </div>
+
+            <p><strong>⑩ 将来なりたい人</strong></p>
+            <div class="ai-history-result">
+                {{ interview["q10"] }}
+            </div>
+
+            <p><strong>⑪ 仕事で大切にしたいこと</strong></p>
+            <div class="ai-history-result">
+                {{ interview["q11"] }}
+            </div>
+
+            <p><strong>⑫ 最後に質問はありますか？</strong></p>
+            <div class="ai-history-result">
+                {{ interview["q12"] }}
+            </div>
+
+        </div>
+
+    {% endfor %}
+
+{% else %}
+
+    <p>この企業の面接回答はまだありません。</p>
+
+{% endif %}
+
+
+<h3>📚 就活ツール</h3>
+
+<p>
+    <a href="{{ url_for('es_generator', company_id=company['id']) }}">
+        📄 この企業のES作成
+    </a>
+</p>
+
+<p>
+    <a href="{{ url_for('gakuchika', company_id=company['id']) }}">
+        📝 この企業のガクチカ作成
+    </a>
+</p>
+
+<p>
+    <a href="{{ url_for('interview', company_id=company['id']) }}">
+        🎤 この企業の面接対策
+    </a>
+</p>
+
+<p>
+    <a href="{{ url_for('edit_company', company_id=company['id']) }}">
+        ✏️ 企業情報を編集
+    </a>
+</p>
+<hr>
+
+<h3>🎤 AI面接履歴</h3>
+
+{% if ai_interview_histories %}
+
+    {% for interview in ai_interview_histories %}
+
+        <div class="ai-history-card">
+
+            <p>
+                📅 {{ interview["created_at"] }}
+            </p>
+
+            <p>
+                AI面接を実施しました。
+            </p>
+
+            <a href="{{ url_for('ai_interview_history_detail', session_id=interview['id']) }}">
+                📖 面接の詳細を見る
+            </a>
+
+        </div>
+
+        <br>
+
+    {% endfor %}
+
+{% else %}
+
+    <div class="ai-history-card">
+
+        <p>
+            まだAI面接を行っていません。
+        </p>
+
+    </div>
+
+{% endif %}
+
+
+{% endblock %}

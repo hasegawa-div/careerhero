@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}ES作成結果{% endblock %}
+
+{% block content %}
+
+<h2>📝 AIが作成したES</h2>
+
+<p>
+    <a href="{{ url_for('dashboard') }}">
+        🏠 ダッシュボードに戻る
+    </a>
+</p>
+
+
+<div class="es-info">
+    <p><strong>🏢 企業：</strong>{{ company }}</p>
+    <p><strong>❓ 設問：</strong>{{ question }}</p>
+</div>
+
+<div class="ai-result">
+    {{ result }}
+</div>
+
+<div class="es-actions">
+
+    <button onclick="copyES()">
+        📋 ESをコピー
+    </button>
+
+    <a href="{{ url_for('es_generator') }}">
+        ✏️ もう一度作成する
+    </a>
+
+</div>
+
+<script>
+function copyES() {
+    const text = document.querySelector(".ai-result").innerText;
+
+    navigator.clipboard.writeText(text).then(function() {
+        alert("ESをコピーしました！");
+    });
+}
+</script>
+
+{% endblock %}

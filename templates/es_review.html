@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}ES添削AI{% endblock %}
+
+{% block content %}
+
+<h2>✏️ ES添削AI</h2>
+
+<p>
+    <a href="{{ url_for('dashboard') }}">
+        🏠 ダッシュボードに戻る
+    </a>
+</p>
+
+<p>
+    作成したESを入力すると、CareerHeroが改善ポイントを分析します。
+</p>
+
+
+
+<form method="POST">
+
+    <label>🏢 企業名</label>
+
+    <input
+        type="text"
+        name="company"
+        placeholder="例：株式会社○○"
+        required
+    >
+
+    <label>❓ ESの設問</label>
+
+    <textarea
+        name="question"
+        placeholder="例：学生時代に力を入れたことを教えてください。"
+        required
+    ></textarea>
+
+    <label>📝 添削してほしいES</label>
+
+    <textarea
+        name="es_text"
+        placeholder="ここにESを貼り付けてください。"
+        required
+    ></textarea>
+
+    <label>📏 文字数</label>
+
+    <input
+        type="number"
+        name="max_length"
+        value="400"
+        min="100"
+        max="2000"
+        required
+    >
+
+    <button type="submit">
+        🤖 AIに添削してもらう
+    </button>
+
+</form>
+
+
+{% endblock %}

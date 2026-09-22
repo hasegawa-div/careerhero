@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+
+{% block title %}ダッシュボード{% endblock %}
+
+{% block content %}
+
+<h2>ようこそ {{ session.username }} さん！</h2>
+{% if is_pro == 1 %}
+
+    <p>⭐ CareerHero Pro</p>
+
+{% else %}
+
+    <p>🆓 Freeプラン</p>
+
+    <a href="{{ url_for('pro') }}">
+        ⭐ CareerHero Proについて見る
+    </a>
+
+
+{% endif %}
+
+<p>CareerHero ダッシュボード</p>
+
+<div class="company-summary">
+
+    <div class="summary-card">
+        <span>🏢</span>
+        <strong>{{ total_companies }}</strong>
+        <p>登録企業</p>
+    </div>
+
+    <div class="summary-card">
+        <span>📝</span>
+        <strong>{{ es_submitted }}</strong>
+        <p>ES提出済み</p>
+    </div>
+
+    <div class="summary-card">
+        <span>🎤</span>
+        <strong>{{ interview }}</strong>
+        <p>面接予定</p>
+    </div>
+
+    <div class="summary-card">
+        <span>🎉</span>
+        <strong>{{ offers }}</strong>
+        <p>内定</p>
+    </div>
+
+</div>
+<div class="deadline-section">
+
+    <h3>⚠️ 締切が近い企業</h3>
+
+    {% if upcoming_deadlines %}
+
+        {% for company in upcoming_deadlines %}
+
+            <div class="deadline-card">
+                <div>
+                    <strong>🏢 {{ company["company_name"] }}</strong>
+                    <span>📅 {{ company["deadline"] }}
+
+                    {% if company["days_left"] == 0 %}
+                        <strong class="deadline-warning">⚠️ 今日が締切！</strong>
+                    {% elif company["days_left"] == 1 %}
+                        <strong class="deadline-warning">⚠️ あと1日</strong>
+                    {% else %}
+                        <strong>あと{{ company["days_left"] }}日</strong>
+                    {% endif %}
+                    </span>
+                </div>
+
+                <span class="deadline-status">
+                    {{ company["status"] }}
+                </span>
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>現在、設定されている締切はありません。</p>
+
+    {% endif %}
+
+</div>
+<hr>
+
+<h3>🚀 就活メニュー</h3>
+
+<div class="dashboard-menu">
+
+    <a href="{{ url_for('self_analysis') }}">
+        🧠
+        <strong>自己分析</strong>
+        <span>自分の強みや価値観を整理する</span>
+    </a>
+
+    <a href="{{ url_for('ai_history') }}">
+        🤖
+        <strong>AI分析履歴</strong>
+        <span>過去のAI分析結果を見る</span>
+    </a>
+
+    <a href="{{ url_for('gakuchika') }}">
+        📝
+        <strong>ガクチカ作成AI</strong>
+        <span>学生時代の経験をAIで文章にする</span>
+    </a>
+
+    <a href="{{ url_for('gakuchika_history') }}">
+        📚
+        <strong>ガクチカ履歴</strong>
+        <span>過去に作成したガクチカを確認する</span>
+    </a>
+
+    <a href="{{ url_for('es_generator') }}">
+        📝
+        <strong>ES作成AI</strong>
+        <span>AIを使ってESを作成する</span>
+    </a>
+
+    <a href="{{ url_for('es_history') }}">
+        📚
+        <strong>ES履歴</strong>
+        <span>過去に作成したESを確認する</span>
+    </a>
+
+    <a href="{{ url_for('es_review') }}">
+        ✏️
+        <strong>ES添削AI</strong>
+        <span>AIにESを添削してもらう</span>
+    </a>
+
+    <a href="{{ url_for('es_review_history') }}">
+        📚
+        <strong>添削履歴</strong>
+        <span>過去のES添削結果を確認する</span>
+    </a>
+
+    <a href="{{ url_for('ai_interview') }}">
+        🎤
+        <strong>AI面接練習</strong>
+        <span>AI面接官と本番のように面接練習をする</span>
+    </a>
+
+    <a href="{{ url_for('ai_interview_history') }}">
+        📚
+        <strong>AI面接履歴</strong>
+        <span>過去に行ったAI面接を確認する</span>
+    </a>
+
+    {% if is_pro == 1 %}
+
+    <a href="{{ url_for('company_analysis') }}">
+        🏢
+        <strong>AI企業分析</strong>
+        <span>気になる企業をAIで分析する</span>
+    </a>
+
+    {% else %}
+
+    <a href="{{ url_for('company_analysis') }}">
+        🔒
+        <strong>AI企業分析（Pro）</strong>
+        <span>CareerHero Proで利用できます</span>
+    </a>
+
+    {% endif %}
+    <a href="{{ url_for('company_analysis_history') }}">
+        📚
+        <strong>企業分析履歴</strong>
+        <span>過去に行った企業分析を確認する</span>
+    </a>
+    <a href="{{ url_for('companies') }}">
+        🏢
+        <strong>応募企業管理</strong>
+        <span>応募企業や就活の進捗を管理する</span>
+    </a>
+
+    
+
+</div>
+
+{% endblock %}

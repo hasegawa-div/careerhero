@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}AI面接練習{% endblock %}
+
+{% block content %}
+
+<h2>🎤 AI面接練習</h2>
+
+<p>
+    AI面接官と本番のような面接練習を行います。
+</p>
+
+{% if not question and not finished %}
+<div class="ai-history-card">
+
+    <h3>🏢 応募企業を選択</h3>
+
+    <form method="POST">
+
+        <label>企業名</label>
+
+        <select name="company_id" required>
+
+            <option value="">
+                企業を選択してください
+            </option>
+
+            {% for company in companies %}
+
+                <option value="{{ company['id'] }}">
+                    {{ company['company_name'] }}
+                </option>
+
+            {% endfor %}
+
+        </select>
+
+        <br><br>
+
+        <button type="submit">
+            🤖 面接を開始する
+        </button>
+
+    </form>
+
+</div>
+{% endif %}
+
+{% if question %}
+
+<hr>
+
+<h3>🤖 AI面接官</h3>
+
+<div class="ai-history-card">
+
+    <p>{{ question }}</p>
+
+</div>
+
+
+<form method="POST" action="{{ url_for('ai_interview') }}">
+    <input type="hidden" name="company_id" value="{{ company['id'] }}">
+
+    <input type="hidden" name="question" value="{{ question }}">
+
+    <h3>✍️ あなたの回答</h3>
+
+    <textarea
+        name="answer"
+        rows="8"
+        placeholder="ここに回答を入力してください..."
+        required
+    ></textarea>
+
+    <br><br>
+
+    <button type="submit">
+        回答する
+    </button>
+
+
+
+</form>
+
+
+{% endif %}
+{% if finished and evaluation %}
+
+<hr>
+
+<h2>🎉 面接終了！</h2>
+
+<div class="ai-history-card">
+
+    <h3>🤖 AI面接官からの総合評価</h3>
+
+    <div class="ai-history-result">
+        {{ evaluation }}
+    </div>
+
+</div>
+
+<br>
+
+<p>
+    5問の面接練習が終了しました。
+</p>
+
+<a href="{{ url_for('ai_interview') }}">
+    🔄 もう一度面接する
+</a>
+<br><br>
+
+<a href="{{ url_for('dashboard') }}">
+    🏠 ホームに戻る
+</a>
+{% endif %}
+<br><br>
+
+<a href="{{ url_for('dashboard') }}">
+    🏠 ホームに戻る
+</a>
+{% endblock %}

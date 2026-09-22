@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}ガクチカ履歴{% endblock %}
+
+{% block content %}
+
+<h2>📚 ガクチカ作成履歴</h2>
+
+<p>
+    これまでにAIで作成したガクチカを確認できます。
+</p>
+
+{% if histories %}
+
+    {% for history in histories %}
+
+        <div class="ai-history-card">
+
+            <h3>📝 ガクチカ</h3>
+
+            <p class="ai-date">
+                {{ history["created_at"] }}
+            </p>
+
+            <hr>
+
+            <p><strong>🎯 経験</strong></p>
+            <div class="ai-history-result">
+                {{ history["experience"] }}
+            </div>
+
+            <p><strong>💪 課題・苦労</strong></p>
+            <div class="ai-history-result">
+                {{ history["challenge"] }}
+            </div>
+
+            <p><strong>🔧 行動・工夫</strong></p>
+            <div class="ai-history-result">
+                {{ history["action"] }}
+            </div>
+
+            <p><strong>🏆 結果</strong></p>
+            <div class="ai-history-result">
+                {{ history["result"] }}
+            </div>
+
+            <p><strong>💡 学んだこと</strong></p>
+            <div class="ai-history-result">
+                {{ history["learning"] }}
+            </div>
+
+            <hr>
+
+            <p><strong>🤖 AIが作成したガクチカ</strong></p>
+
+            <div class="ai-history-result">
+                {{ history["generated_text"] }}
+            </div>
+
+            <button
+                type="button"
+                onclick="copyGakuchika(this)">
+                📋 ガクチカをコピー
+            </button>
+
+            <form
+                class="es-delete-form"
+                method="POST"
+                action="{{ url_for('delete_gakuchika', history_id=history['id']) }}"
+                onsubmit="return confirm('このガクチカを削除しますか？');">
+
+                <button type="submit">
+                    🗑️ このガクチカを削除
+                </button>
+
+            </form>
+
+        </div>
+
+    {% endfor %}
+
+{% else %}
+
+    <p>まだガクチカを作成していません。</p>
+
+{% endif %}
+
+<p>
+    <a href="{{ url_for('gakuchika') }}">
+        📝 ガクチカを作成する
+    </a>
+</p>
+
+<p>
+    <a href="{{ url_for('dashboard') }}">
+        🏠 ダッシュボードに戻る
+    </a>
+</p>
+
+<script>
+function copyGakuchika(button) {
+
+    const text = button.previousElementSibling.innerText;
+
+    navigator.clipboard.writeText(text).then(function() {
+
+        const originalText = button.innerText;
+
+        button.innerText = "✅ コピーしました！";
+
+        setTimeout(function() {
+            button.innerText = originalText;
+        }, 1500);
+
+    });
+
+}
+</script>
+
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}ES作成AI{% endblock %}
+
+{% block content %}
+
+<h2>📝 ES作成AI</h2>
+
+<p>
+    <a href="{{ url_for('dashboard') }}">
+        🏠 ダッシュボードに戻る
+    </a>
+</p>
+
+<p>
+    応募する企業や設問を入力すると、AIがあなたの経験をもとにESの文章を作成します。
+</p>
+
+<form method="POST">
+
+    <label>🏢 企業名</label>
+    <select name="company_id" required>
+        <option value="">企業を選択してください</option>
+
+        {% for company in companies %}
+            {% if selected_company_id|int == company['id'] %}
+                <option 
+                    value="{{ company['id'] }}" selected>
+                    {{ company['company_name'] }}
+                </option>
+            {% else %}
+                <option value="{{ company['id']}}">
+                    {{ company['company_name'] }}
+                </option>
+            {% endif %}
+        {% endfor %}
+    </select>
+
+    <label>❓ ESの設問</label>
+    <textarea
+        name="question"
+        placeholder="例：あなたが学生時代に力を入れたことを教えてください。"
+        required
+    ></textarea>
+
+    <label>📏 文字数</label>
+    <input
+        type="number"
+        name="max_length"
+        value="400"
+        min="100"
+        max="2000"
+        required
+    >
+
+    <button type="submit">
+        🤖 AIでESを作成
+    </button>
+
+</form>
+
+{% endblock %}

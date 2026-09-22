@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}ES履歴{% endblock %}
+
+{% block content %}
+
+<h2>📚 ES履歴</h2>
+
+<p>
+    <a href="{{ url_for('dashboard') }}">
+        🏠 ダッシュボードに戻る
+    </a>
+</p>
+
+<p>これまでに作成したESを確認できます。</p>
+
+{% if histories %}
+
+    {% for history in histories %}
+
+        <div class="ai-history-card">
+
+            <h3>🏢 {{ history["company"] }}</h3>
+
+            <p class="ai-date">
+                {{ history["created_at"] }}
+            </p>
+
+            <p>
+                <strong>設問：</strong>
+                {{ history["question"] }}
+            </p>
+
+            <hr>
+
+            <div class="ai-history-result">
+                {{ history["result"] }}
+            </div>
+            <button type="button" onclick="copyES(this)">
+                📋 ESをコピー
+            </button>
+            <form class="es-delete-form"
+                method="POST"
+                action="{{ url_for('delete_es', es_id=history['id']) }}"
+                onsubmit="return confirm('このESを削除しますか？');">
+
+                <button type="submit">
+                    🗑️ このESを削除
+                </button>
+
+            </form>
+
+        </div>
+
+    {% endfor %}
+
+{% else %}
+
+    <p>まだESを作成していません。</p>
+
+{% endif %}
+
+<p>
+    <a href="{{ url_for('es_generator') }}">
+        📝 ESを作成する
+    </a>
+</p>
+<script>
+function copyES(button) {
+
+    const text = button.previousElementSibling.innerText;
+
+    navigator.clipboard.writeText(text).then(function() {
+
+        const originalText = button.innerText;
+
+        button.innerText = "✅ コピーしました！";
+
+        setTimeout(function() {
+            button.innerText = originalText;
+        }, 1500);
+
+    });
+
+}
+</script>
+
+{% endblock %}

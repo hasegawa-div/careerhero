@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}AI面接詳細{% endblock %}
+
+{% block content %}
+
+<h2>🎤 AI面接詳細</h2>
+
+<div class="ai-history-card">
+
+    <h3>🏢 {{ interview_session["company_name"] }}</h3>
+
+    <p>
+        📅 {{ interview_session["created_at"] }}
+    </p>
+
+</div>
+
+<br>
+
+<h3>📝 面接内容</h3>
+
+{% for history in histories %}
+
+    <div class="ai-history-card">
+
+        <h3>🤖 質問{{ loop.index }}</h3>
+
+        <p>
+            {{ history["question"] }}
+        </p>
+
+        <hr>
+
+        <h3>✍️ あなたの回答</h3>
+
+        <p>
+            {{ history["answer"] }}
+        </p>
+
+    </div>
+
+    <br>
+
+{% endfor %}
+
+
+<h3>📊 AI面接官からの総合評価</h3>
+
+<div class="ai-history-card">
+
+    {% if interview_session["evaluation"] %}
+
+        <div class="ai-history-result">
+            {{ interview_session["evaluation"] }}
+        </div>
+
+    {% else %}
+
+        <p>
+            この面接の評価はまだありません。
+        </p>
+
+    {% endif %}
+
+</div>
+
+<br>
+<form method="POST"
+      action="{{ url_for('delete_ai_interview_history', session_id=interview_session['id']) }}"
+      onsubmit="return confirm('この面接履歴を削除しますか？');">
+
+    <button type="submit">
+        🗑️ この面接履歴を削除
+    </button>
+
+</form>
+
+
+<a href="{{ url_for('ai_interview') }}">
+    🎤 新しい面接をする
+</a>
+
+<br><br>
+<a href="{{ url_for('ai_interview_history') }}">
+    ← 面接履歴に戻る
+</a>
+
+<br><br>
+
+
+<a href="{{ url_for('dashboard') }}">
+    🏠 ホームに戻る
+</a>
+{% endblock %}

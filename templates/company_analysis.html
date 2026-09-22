@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}AI企業分析{% endblock %}
+
+{% block content %}
+
+<h2>🏢 AI企業分析</h2>
+
+<p>
+    気になる企業について、AIが就活の視点から分析します。
+</p>
+
+<form method="POST">
+
+    <h3>企業を選択</h3>
+
+    <select name="company_id" required>
+
+        <option value="">企業を選択してください</option>
+
+        {% for company in companies %}
+
+            <option value="{{ company['id'] }}">
+                {{ company['company_name'] }}
+            </option>
+
+        {% endfor %}
+
+    </select>
+
+    <br><br>
+
+    <button type="submit">
+        🤖 AIで企業分析する
+    </button>
+
+</form>
+
+{% if result %}
+
+<hr>
+
+<h2>🤖 AI企業分析結果</h2>
+
+<div class="ai-history-card">
+
+    <h3>🏢 {{ company["company_name"] }}</h3>
+
+    <div class="ai-history-result">
+        {{ result }}
+    </div>
+
+</div>
+
+<br>
+
+<a href="{{ url_for('company_analysis') }}">
+    🔄 別の企業を分析する
+</a>
+
+{% endif %}
+<br>
+
+<a href="{{ url_for('dashboard') }}">
+    🏠 ホームに戻る
+</a>
+
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}ガクチカ作成AI{% endblock %}
+
+{% block content %}
+
+<h2>📝 ガクチカ作成AI</h2>
+
+<p>
+    <a href="{{ url_for('dashboard') }}">
+        🏠 ダッシュボードに戻る
+    </a>
+</p>
+
+<p>
+    あなたの学生時代の経験を入力すると、
+    AIが就活で使えるガクチカを作成します。
+</p>
+
+<label>🏢 企業名</label>
+
+<select name="company_id" required>
+    <option value="">企業を選択してください</option>
+
+    {% for company in companies %}
+
+        {% if company_id|int == company['id'] %}
+
+            <option value="{{ company['id'] }}" selected>
+                {{ company['company_name'] }}
+            </option>
+
+        {% else %}
+
+            <option value="{{ company['id'] }}">
+                {{ company['company_name'] }}
+            </option>
+        {% endif %}
+
+    {% endfor %}
+</select>
+
+<form method="POST" action="{{ url_for('gakuchika', company_id=company_id) }}">
+    
+
+    <input type="hidden" name="company_id" value="{{ company_id }}">
+
+    <label>🎯 何に力を入れましたか？</label>
+    <textarea
+        name="experience"
+        placeholder="例：大学のプログラミング学習に力を入れました。"
+        required
+    ></textarea>
+
+    <label>💪 どんな課題や苦労がありましたか？</label>
+    <textarea
+        name="challenge"
+        placeholder="例：最初はプログラミングが難しく、エラーを解決できませんでした。"
+        required
+    ></textarea>
+
+    <label>🔧 どのように工夫・行動しましたか？</label>
+    <textarea
+        name="action"
+        placeholder="例：エラーの原因を調べたり、何度もコードを書き直しました。"
+        required
+    ></textarea>
+
+    <label>🏆 どんな結果になりましたか？</label>
+    <textarea
+        name="result"
+        placeholder="例：最終的に自分でWebアプリを完成させることができました。"
+        required
+    ></textarea>
+
+    <label>💡 そこから何を学びましたか？</label>
+    <textarea
+        name="learning"
+        placeholder="例：分からないことでも、自分で調べて試すことの大切さを学びました。"
+        required
+    ></textarea>
+
+    <label>📏 文字数</label>
+    <input
+        type="number"
+        name="max_length"
+        value="400"
+        min="100"
+        max="2000"
+        required
+    >
+
+    <button type="submit">
+        🤖 AIでガクチカを作成
+    </button>
+
+</form>
+
+
+
+{% endblock %}

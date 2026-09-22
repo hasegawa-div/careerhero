@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}新規登録{% endblock %}
+
+{% block content %}
+
+<h2>新規登録</h2>
+
+<form method="POST">
+
+    <label>ユーザー名</label>
+    <input type="text" name="username" required>
+
+    <label>パスワード</label>
+    <input type="password" name="password" required>
+
+    <button type="submit">登録する</button>
+
+</form>
+
+<p>
+    すでにアカウントを持っている方は
+    <a href="{{ url_for('login') }}">ログイン</a>
+</p>
+
+{% endblock %}

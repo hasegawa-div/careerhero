@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}自己分析{% endblock %}
+
+{% block content %}
+
+<h2>🧠 自己分析</h2>
+
+<p>
+    <a href="{{ url_for('dashboard') }}">
+        🏠 ダッシュボードに戻る
+    </a>
+</p>
+
+<p>あなたの経験や考えを入力して、自分の強みを見つけよう。</p>
+
+<form method="POST">
+
+    <label>① 学生時代に力を入れたことは？</label>
+    <textarea name="question1" required></textarea>
+
+    <label>② その中で苦労したことは？</label>
+    <textarea name="question2" required></textarea>
+
+    <label>③ その苦労をどうやって乗り越えた？</label>
+    <textarea name="question3" required></textarea>
+
+    <label>④ あなたの長所は？</label>
+    <textarea name="question4" required></textarea>
+
+    <label>⑤ あなたの短所は？</label>
+    <textarea name="question5" required></textarea>
+
+    <label>⑥ 周りの人からどんな性格だと言われる？</label>
+    <textarea name="question6" required></textarea>
+
+    <label>⑦ 人と協力して何か成し遂げた経験は？</label>
+    <textarea name="question7" required></textarea>
+
+    <label>⑧ 自分から行動を起こした経験は？</label>
+    <textarea name="question8" required></textarea>
+
+    <label>⑨ 失敗した経験と、そこから学んだ経験は？</label>
+    <textarea name="question9" required></textarea>
+
+    <label>⑩ 一番達成感を感じた経験は？</label>
+    <textarea name="question10" required></textarea>
+    
+    <label>⑪ どんなことをしているときに楽しいと感じる？</label>
+    <textarea name="question11" required></textarea>
+
+    <label>⑫ 逆に、どんなことが苦手・嫌い？</label>
+    <textarea name="question12" required></textarea>
+
+    <label>⑬ 仕事をするうえで大切にしたいことは？</label>
+    <textarea name="question13" required></textarea>
+
+    <label>⑭ 将来どんなひとになりたい？</label>
+    <textarea name="question14" required></textarea>
+
+    <label>⑮ 興味のある業界・職種は？</label>
+    <textarea name="question15" required></textarea>
+
+
+    <button type="submit" formaction="{{ url_for('ai_analysis') }}">
+        🤖 AIに分析してもらう
+    </button>
+</form>
+
+{% endblock %}

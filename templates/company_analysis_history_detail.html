@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}企業分析詳細{% endblock %}
+
+{% block content %}
+
+<h2>🏢 AI企業分析詳細</h2>
+
+<div class="ai-history-card">
+
+    <h3>🏢 {{ history["company_name"] }}</h3>
+
+    <p>
+        📅 {{ history["created_at"] }}
+    </p>
+
+</div>
+
+<br>
+
+<h3>🤖 AI分析結果</h3>
+
+<div class="ai-history-card">
+
+    <div class="ai-history-result">
+        {{ history["result"] }}
+    </div>
+
+</div>
+
+<form method="POST"
+      action="{{ url_for('delete_company_analysis_history', history_id=history['id']) }}"
+      onsubmit="return confirm('この企業分析履歴を削除しますか？');">
+
+    <button type="submit">
+        🗑️ この企業分析を削除
+    </button>
+
+</form>
+<br><br>
+<a href="{{ url_for('company_analysis_history') }}">
+    ← 企業分析履歴に戻る
+</a>
+
+<br><br>
+
+<a href="{{ url_for('company_analysis') }}">
+    🏢 新しい企業を分析する
+</a>
+<br><br>
+<a href="{{ url_for('dashboard') }}">
+    🏠 ホームに戻る
+</a>
+
+{% endblock %}

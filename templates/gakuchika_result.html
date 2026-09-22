@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}ガクチカ作成結果{% endblock %}
+
+{% block content %}
+
+<h2>📝 AIが作成したガクチカ</h2>
+
+<p>
+    あなたの経験をもとにCareerHeroがガクチカを作成しました。
+</p>
+
+<div class="ai-result">
+    {{ result }}
+</div>
+
+<div class="es-actions">
+
+    <button type="button" onclick="copyGakuchika()">
+        📋 ガクチカをコピー
+    </button>
+
+    <a href="{{ url_for('gakuchika') }}">
+        ✏️ もう一度作成する
+    </a>
+
+</div>
+
+<p>
+    <a href="{{ url_for('dashboard') }}">
+        🏠 ダッシュボードに戻る
+    </a>
+</p>
+
+<script>
+function copyGakuchika() {
+
+    const text = document.querySelector(".ai-result").innerText;
+
+    navigator.clipboard.writeText(text).then(function() {
+
+        alert("ガクチカをコピーしました！");
+
+    });
+
+}
+</script>
+
+{% endblock %}

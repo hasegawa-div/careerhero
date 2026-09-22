@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}応募企業{% endblock %}
+
+{% block content %}
+
+<h2>🏢 応募企業管理</h2>
+
+<p>
+    <a href="{{ url_for('dashboard') }}">
+        🏠 ダッシュボードに戻る
+    </a>
+</p>
+
+<p>応募する企業を登録して、就活の進捗を管理しよう。</p>
+
+<form method="POST">
+
+    <label>🏢 企業名</label>
+
+    <input
+        type="text"
+        name="company_name"
+        placeholder="例：株式会社○○"
+        required
+    >
+
+    <label>📊 応募状況</label>
+
+    <select name="status">
+
+        <option value="未応募">未応募</option>
+        <option value="ES作成中">ES作成中</option>
+        <option value="ES提出済み">ES提出済み</option>
+        <option value="面接予定">面接予定</option>
+        <option value="面接中">面接中</option>
+        <option value="内定">内定</option>
+        <option value="不合格">不合格</option>
+
+    </select>
+
+    <label>📅 締切</label>
+
+    <input
+        type="date"
+        name="deadline"
+    >
+
+    <label>📝 企業メモ</label>
+    <textarea
+        name="memo"
+        placeholder="例：説明会で聞いたこと、面接でアピールしたいことなど"></textarea>
+
+
+    <button type="submit">
+        ➕ 企業を登録
+    </button>
+
+</form>
+
+<hr>
+
+<h3>📋 登録企業一覧</h3>
+
+{% if companies %}
+
+    {% for company in companies %}
+
+        <div class="ai-history-card">
+
+            <h3>🏢 {{ company["company_name"] }}</h3>
+
+            <p>
+                <strong>📊 応募状況：</strong>
+                {{ company["status"] }}
+            </p>
+
+            <p>
+                <strong>📅 締切：</strong>
+                {% if company["deadline"] %}
+                    {{ company["deadline"] }}
+                {% else %}
+                    未設定
+                {% endif %}
+            </p>
+
+            {% if company["memo"] %}
+                <p>
+                    <strong>📝 メモ：</strong>
+                </p>
+
+                <div class="ai-history-result">
+                    {{ company["memo"] }}
+                </div>
+            {% endif %}
+
+            <p>
+                <a href="{{ url_for('company_detail', company_id=company['id']) }}">
+                    🔍 この企業の詳細を見る
+                </a>
+            </p>
+
+            <p>
+                <a href="{{ url_for('edit_company', company_id=company['id']) }}">
+                    ✏️ この企業を編集
+                </a>
+            </p>
+
+            <form class="es-delete-form"
+                  method="POST"
+                  action="{{ url_for('delete_company', company_id=company['id']) }}"
+                  onsubmit="return confirm('この企業を削除しますか？');">
+
+                <button type="submit">
+                    🗑️ この企業を削除
+                </button>
+            
+            
+            
+            
+            </form>
+
+        </div>
+
+    {% endfor %}
+
+{% else %}
+
+    <p>まだ企業が登録されていません。</p>
+
+{% endif %}
+
+{% endblock %}

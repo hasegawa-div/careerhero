@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}AI面接履歴{% endblock %}
+
+{% block content %}
+
+<h2>📋 AI面接履歴</h2>
+
+<p>
+    これまでに行ったAI面接の履歴です。
+</p>
+
+{% if sessions %}
+
+    {% for interview in sessions %}
+
+        <div class="ai-history-card">
+
+            <h3>🏢 {{ interview["company_name"] }}</h3>
+
+            <p>
+                📅 {{ interview["created_at"] }}
+            </p>
+
+
+            <br>
+            
+            <a href="{{ url_for('ai_interview_history_detail', session_id=interview['id']) }}">
+                📖 この面接の詳細を見る
+            </a>
+
+        </div>
+
+        <br>
+
+    {% endfor %}
+
+{% else %}
+
+    <div class="ai-history-card">
+
+        <p>
+            まだAI面接の履歴がありません。
+        </p>
+
+    </div>
+
+{% endif %}
+
+<br>
+
+<a href="{{ url_for('ai_interview') }}">
+    🎤 AI面接練習に戻る
+</a>
+<br><br>
+
+<a href="{{ url_for('dashboard') }}">
+    🏠 ホームに戻る
+</a>
+{% endblock %}

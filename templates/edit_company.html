@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}企業編集{% endblock %}
+
+{% block content %}
+
+<h2>✏️ 企業情報を編集</h2>
+
+<form method="POST">
+
+    <label>🏢 企業名</label>
+    <input
+        type="text"
+        name="company_name"
+        value="{{ company['company_name'] }}"
+        required
+    >
+
+    <label>📊 応募状況</label>
+    <select name="status">
+
+        <option value="未応募"
+            {% if company["status"] == "未応募" %}selected{% endif %}>
+            未応募
+        </option>
+
+        <option value="ES作成中"
+            {% if company["status"] == "ES作成中" %}selected{% endif %}>
+            ES作成中
+        </option>
+
+        <option value="ES提出済み"
+            {% if company["status"] == "ES提出済み" %}selected{% endif %}>
+            ES提出済み
+        </option>
+
+        <option value="面接予定"
+            {% if company["status"] == "面接予定" %}selected{% endif %}>
+            面接予定
+        </option>
+
+        <option value="面接中"
+            {% if company["status"] == "面接中" %}selected{% endif %}>
+            面接中
+        </option>
+
+        <option value="内定"
+            {% if company["status"] == "内定" %}selected{% endif %}>
+            内定
+        </option>
+
+        <option value="不合格"
+            {% if company["status"] == "不合格" %}selected{% endif %}>
+            不合格
+        </option>
+
+    </select>
+
+    <label>📅 締切</label>
+    <input
+        type="date"
+        name="deadline"
+        value="{{ company['deadline'] or '' }}"
+    >
+
+    <label>📝 企業メモ</label>
+    <textarea
+        name="memo"
+        placeholder="説明会で聞いたこと、面接でアピールしたいことなど">{{ company["memo"] or "" }}</textarea>
+
+    <button type="submit">
+        💾 保存する
+    </button>
+
+</form>
+
+<p>
+    <a href="{{ url_for('companies') }}">
+        ← 応募企業一覧に戻る
+    </a>
+</p>
+
+{% endblock %}
