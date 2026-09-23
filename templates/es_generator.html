@@ -16,6 +16,8 @@
     応募する企業や設問を入力すると、AIがあなたの経験をもとにESの文章を作成します。
 </p>
 
+{% if companies %}
+
 <form method="POST">
 
     <label>🏢 企業名</label>
@@ -35,6 +37,14 @@
             {% endif %}
         {% endfor %}
     </select>
+
+    <p>
+        💡 企業が見つからない場合は、
+        <a href="{{ url_for('companies') }}">
+            応募企業管理
+        </a>
+        から企業を登録してください。
+    </p>
 
     <label>❓ ESの設問</label>
     <textarea
@@ -58,5 +68,30 @@
     </button>
 
 </form>
+
+{% else %}
+
+<div class="card">
+
+    <h3>🏢 企業がまだ登録されていません</h3>
+
+    <p>
+        ESを作成するには、まず応募企業を登録してください。
+    </p>
+
+    <p>
+        応募企業を登録すると、その企業を選択して
+        AIにESを作成してもらえるようになります。
+    </p>
+
+    <br>
+
+    <a href="{{ url_for('companies') }}">
+        🏢 応募企業を登録する
+    </a>
+
+</div>
+
+{% endif %}
 
 {% endblock %}
