@@ -22,30 +22,26 @@
 
 <p>CareerHero ダッシュボード</p>
 
-<div class="company-summary">
+<div class="stats">
 
-    <div class="summary-card">
-        <span>🏢</span>
-        <strong>{{ total_companies }}</strong>
-        <p>登録企業</p>
+    <div class="stat-card">
+        <h3>🏢 登録企業</h3>
+        <div class="number">{{ total_companies }}</div>
     </div>
 
-    <div class="summary-card">
-        <span>📝</span>
-        <strong>{{ es_submitted }}</strong>
-        <p>ES提出済み</p>
+    <div class="stat-card">
+        <h3>📝 ES提出済み</h3>
+        <div class="number">{{ es_submitted }}</div>
     </div>
 
-    <div class="summary-card">
-        <span>🎤</span>
-        <strong>{{ interview }}</strong>
-        <p>面接予定</p>
+    <div class="stat-card">
+        <h3>🎤 面接予定</h3>
+        <div class="number">{{ interview }}</div>
     </div>
 
-    <div class="summary-card">
-        <span>🎉</span>
-        <strong>{{ offers }}</strong>
-        <p>内定</p>
+    <div class="stat-card">
+        <h3>🎉 内定</h3>
+        <div class="number">{{ offers }}</div>
     </div>
 
 </div>
