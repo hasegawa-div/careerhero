@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}CareerHero{% endblock %}
+
+{% block content %}
+
+<div class="hero">
+
+    <h2>CareerHeroへようこそ！</h2>
+
+    <p>
+        AIと一緒に、就活をもっと効率的に。
+    </p>
+
+    <p>
+        自己分析・ES・ガクチカ・面接対策・企業分析まで、
+        CareerHeroでまとめて管理できます。
+    </p>
+
+    <br>
+
+    <a href="{{ url_for('login') }}">
+        ログイン
+    </a>
+
+    <br><br>
+
+    <a href="{{ url_for('register') }}">
+        新規登録
+    </a>
+
+</div>
+
+{% endblock %}
