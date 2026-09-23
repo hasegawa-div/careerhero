@@ -157,35 +157,85 @@ textarea {
 
 
 /* =========================
-   統計カード
+   締切セクション
 ========================= */
 
-.stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
-    margin-bottom: 30px;
-}
-
-.stat-card {
+.deadline-section {
     background: white;
-    padding: 22px;
-    border-radius: 15px;
-    text-align: center;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+    padding: 25px;
+    margin: 30px 0;
+    border-radius: 16px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
 }
 
-.stat-card h3 {
-    margin-bottom: 8px;
-    font-size: 16px;
+.deadline-section h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+
+/* =========================
+   締切カード
+========================= */
+
+.deadline-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: #f8f9fc;
+
+    padding: 18px 20px;
+    margin-bottom: 12px;
+
+    border-radius: 12px;
+    border: 1px solid #edf0f5;
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.deadline-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.07);
+}
+
+.deadline-card strong {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.deadline-card span {
+    font-size: 14px;
     color: #666;
 }
 
-.stat-card .number {
-    font-size: 30px;
+.deadline-status {
+    background: #eef2ff;
+    color: #4f7cff !important;
+
+    padding: 6px 12px;
+    border-radius: 20px;
+
+    font-size: 13px !important;
     font-weight: bold;
-    color: #4f7cff;
 }
+
+.deadline-warning {
+    color: #e74c3c !important;
+    margin-left: 8px;
+}
+
+
+/* =========================
+   締切なし
+========================= */
+
+.deadline-section > p {
+    color: #777;
+    margin-bottom: 0;
+}
+
 
 /* =========================
    就活メニュー
@@ -266,28 +316,6 @@ textarea {
     );
 }
 
-
-
-/* =========================
-   締切カード
-========================= */
-
-.deadline-card {
-    background: white;
-    padding: 25px;
-    border-radius: 15px;
-    margin-bottom: 30px;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
-}
-
-.deadline-item {
-    padding: 15px 0;
-    border-bottom: 1px solid #eee;
-}
-
-.deadline-item:last-child {
-    border-bottom: none;
-}
 
 
 /* =========================
@@ -376,4 +404,20 @@ a:hover {
     .hero p {
         font-size: 16px;
     }
+    
+    .deadline-section {
+        padding: 20px;
+        margin: 25px 0;
+    }
+
+    .deadline-card {
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .deadline-status {
+        white-space: nowrap;
+    }
+
+
 }
