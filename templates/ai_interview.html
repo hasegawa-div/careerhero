@@ -11,39 +11,78 @@
 </p>
 
 {% if not question and not finished %}
-<div class="ai-history-card">
 
-    <h3>🏢 応募企業を選択</h3>
+    {% if companies %}
+        <div class="ai-history-card">
 
-    <form method="POST">
+            <h3>🏢  面接する企業を選択</h3>
 
-        <label>企業名</label>
+            <p>
+                面接練習したい企業を選択してください。
+            </p>
 
-        <select name="company_id" required>
+            <form method="POST">
 
-            <option value="">
-                企業を選択してください
-            </option>
+                <label>企業名</label>
 
-            {% for company in companies %}
+                <select name="company_id" required>
 
-                <option value="{{ company['id'] }}">
-                    {{ company['company_name'] }}
-                </option>
+                    <option value="">
+                        企業を選択してください
+                    </option>
 
-            {% endfor %}
+                    {% for company in companies %}
 
-        </select>
+                        <option value="{{ company['id'] }}">
+                            {{ company['company_name'] }}
+                        </option>
 
-        <br><br>
+                    {% endfor %}
 
-        <button type="submit">
-            🤖 面接を開始する
-        </button>
+                </select>
+                
+                 <p>
+                    💡 企業が見つからない場合は、
+                    <a href="{{ url_for('companies') }}">
+                        応募企業管理
+                    </a>
+                    から企業を登録してください。
+                </p>
 
-    </form>
 
-</div>
+                <button type="submit">
+                    🤖 面接を開始する
+                </button>
+
+            </form>
+
+        </div>
+
+    {% else %}
+        
+        <div class="card">
+
+            <h3>🏢 企業がまだ登録されていません</h3>
+
+            <p>
+                AI面接練習を始めるには、
+                まず応募企業を登録してください。
+            </p>
+
+            <p>
+                企業を登録すると、その企業を選択して
+                AI面接官との練習を始められます。 
+            </p>
+
+            <br>
+
+            <a href="{{ url_for('companies') }}">
+                🏢 応募企業を登録する
+            </a>
+        </div>
+    
+    {% endif %}
+    
 {% endif %}
 
 {% if question %}
