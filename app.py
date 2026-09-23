@@ -186,7 +186,8 @@ def init_db():
         pass
     conn.commit()
     conn.close()
-
+    
+init_db()
 
 @app.route("/regiater",methods=["GET", "POST"])
 def register():
