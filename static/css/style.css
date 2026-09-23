@@ -2,11 +2,16 @@
    全体
 ========================= */
 
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     font-family: Arial, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
     background: #f5f7fb;
     color: #333;
+    line-height: 1.6;
 }
 
 
@@ -16,13 +21,14 @@ body {
 
 header {
     background: white;
-    padding: 20px 40px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    padding: 18px 40px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
 }
 
 header h1 {
     margin: 0;
     font-size: 28px;
+    color: #333;
 }
 
 
@@ -31,14 +37,14 @@ header h1 {
 ========================= */
 
 main {
-    max-width: 1000px;
-    margin: 50px auto;
+    max-width: 1100px;
+    margin: 40px auto;
     padding: 0 20px;
 }
 
 h2 {
-    font-size: 32px;
-    margin-bottom: 20px;
+    font-size: 30px;
+    margin-bottom: 15px;
 }
 
 h3 {
@@ -58,7 +64,7 @@ p {
     background: white;
     padding: 60px 40px;
     border-radius: 20px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
     text-align: center;
 }
 
@@ -74,23 +80,21 @@ p {
 
 
 /* =========================
-   ボタン風リンク
+   ボタン
 ========================= */
 
-.hero a {
-    display: inline-block;
-    padding: 12px 28px;
-    margin: 5px;
+button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 9px;
     background: #4f7cff;
     color: white;
-    text-decoration: none;
-    border-radius: 10px;
+    font-size: 16px;
     font-weight: bold;
-    transition: 0.2s;
+    cursor: pointer;
 }
 
-.hero a:hover {
-    transform: translateY(-2px);
+button:hover {
     opacity: 0.9;
 }
 
@@ -108,28 +112,13 @@ select {
     margin-bottom: 16px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    box-sizing: border-box;
     font-size: 16px;
+    background: white;
 }
 
 textarea {
     min-height: 120px;
     resize: vertical;
-}
-
-button {
-    padding: 12px 24px;
-    border: none;
-    border-radius: 8px;
-    background: #4f7cff;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-button:hover {
-    opacity: 0.9;
 }
 
 
@@ -143,6 +132,154 @@ button:hover {
     margin-bottom: 20px;
     border-radius: 15px;
     box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+}
+
+
+/* =========================
+   ダッシュボード
+========================= */
+
+.dashboard {
+    width: 100%;
+}
+
+.dashboard-header {
+    background: white;
+    padding: 30px;
+    border-radius: 18px;
+    margin-bottom: 25px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+}
+
+.dashboard-header h2 {
+    margin-top: 0;
+}
+
+
+/* =========================
+   統計カード
+========================= */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: white;
+    padding: 22px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+}
+
+.stat-card h3 {
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #666;
+}
+
+.stat-card .number {
+    font-size: 30px;
+    font-weight: bold;
+    color: #4f7cff;
+}
+
+
+/* =========================
+   就活メニュー
+========================= */
+
+.dashboard-menu {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.dashboard-menu a {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    background: white;
+    padding: 22px;
+    border-radius: 15px;
+
+    text-decoration: none;
+    color: #333;
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.dashboard-menu a:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 20px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-menu strong {
+    font-size: 18px;
+}
+
+.dashboard-menu span {
+    color: #777;
+    font-size: 14px;
+}
+
+
+/* =========================
+   締切カード
+========================= */
+
+.deadline-card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+}
+
+.deadline-item {
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.deadline-item:last-child {
+    border-bottom: none;
+}
+
+
+/* =========================
+   AI結果
+========================= */
+
+.ai-result {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+    white-space: pre-wrap;
+}
+
+
+/* =========================
+   履歴カード
+========================= */
+
+.ai-history-card {
+    background: white;
+    padding: 25px;
+    margin-bottom: 18px;
+    border-radius: 15px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+}
+
+.ai-history-card h3 {
+    margin-bottom: 10px;
 }
 
 
@@ -163,15 +300,23 @@ a:hover {
    スマホ対応
 ========================= */
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
 
     header {
         padding: 15px 20px;
     }
 
     main {
-        margin: 30px auto;
+        margin: 25px auto;
         padding: 0 15px;
+    }
+
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard-menu {
+        grid-template-columns: 1fr;
     }
 
     .hero {
