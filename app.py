@@ -539,6 +539,38 @@ def es_generator():
 
     if request.method == "POST":
 
+        # =========================
+        # ES作成AIの1日利用回数チェック
+        # =========================
+
+        conn = get_db()
+
+        user = conn.execute("""
+            SELECT is_pro
+            FROM users
+            WHERE id = ?
+        """, (session["user_id"],)).fetchone()
+
+        today_count = conn.execute("""
+            SELECT COUNT(*)
+            FROM es_history
+            WHERE user_id = ?
+            AND DATE(created_at) = DATE('now')
+        """, (session["user_id"],)).fetchone()[0]
+
+        limit = 20 if user["is_pro"] == 1 else 3
+
+        if today_count >= limit:
+            conn.close()
+
+            flash(
+                f"ES作成AIは1日{limit}回まで利用できます。"
+            )
+
+            return redirect(url_for("es_generator"))
+
+        conn.close()
+
         company_id = request.form["company_id"]
         question = request.form["question"]
         max_length = request.form["max_length"]
