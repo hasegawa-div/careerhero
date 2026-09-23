@@ -154,7 +154,36 @@ textarea {
 .dashboard-header h2 {
     margin-top: 0;
 }
+/* =========================
+   ダッシュボード統計カード
+========================= */
 
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: white;
+    padding: 22px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+}
+
+.stat-card h3 {
+    margin: 0 0 8px;
+    font-size: 16px;
+    color: #666;
+}
+
+.stat-card .number {
+    font-size: 30px;
+    font-weight: bold;
+    color: #4f7cff;
+}
 
 /* =========================
    締切セクション
@@ -404,7 +433,7 @@ a:hover {
     .hero p {
         font-size: 16px;
     }
-    
+
     .deadline-section {
         padding: 20px;
         margin: 25px 0;
