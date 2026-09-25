@@ -598,6 +598,9 @@ def es_generator():
             LIMIT 1
         """, (session["user_id"],)).fetchone()
 
+        print("DEBUG user_id:", session["user_id"])
+        print("DEBUG analysis:", analysis)
+
         conn.close()
 
         if not analysis:
