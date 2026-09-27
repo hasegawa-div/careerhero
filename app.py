@@ -501,6 +501,9 @@ def ai_analysis():
     ))
 
     conn.commit()
+
+    print("DEBUG AI分析保存user_id:", session["user_id"])
+
     conn.close()
 
     return render_template(
