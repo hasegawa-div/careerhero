@@ -423,7 +423,6 @@ def self_analysis():
         return redirect(url_for("self_analysis"))
 
     return render_template("self_analysis.html")
-
 @app.route("/ai-test")
 def ai_test():
 
