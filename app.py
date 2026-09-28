@@ -1968,6 +1968,10 @@ def stripe_webhook():
 
     webhook_secret = os.environ.get("STRIPE_WEBHOOK_SECRET")
 
+    print("WEBHOOK SECRET EXISTS:", webhook_secret is not None)
+    print("WEBHOOK SECRET LENGTH:", len(webhook_secret) if webhook_secret else 0)
+    print("WEBHOOK SECRET PREFIX:", webhook_secret[:7] if webhook_secret else "NONE")
+
     try:
         event = stripe.Webhook.construct_event(
             payload,
