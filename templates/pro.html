@@ -12,56 +12,6 @@
 
 <div class="ai-history-card">
 
-    <h3>⭐ Proで使える機能</h3>
-
-    <ul>
-        <li>🏢 AI企業分析</li>
-        <li>🤖 今後追加されるPro限定AI機能</li>
-    </ul>
-
-</div>
-
-<br>
-
-<h3>月額料金</h3>
-
-<p>
-    <strong>¥480 / 月</strong>
-</p>
-
-<br>
-<form action="{{ url_for('create_checkout_session') }}" method="POST">
-     <button type="submit">
-        ⭐ CareerHero Proにアップグレード
-    </button>
-</form>
-   
-<br><br>
-
-<a href="{{ url_for('dashboard') }}">
-    ← ダッシュボードに戻る
-</a>
-
-{% endblock %}
-
-いいね。今の pro.html を、FreeとProの違いが一目で分かるページに変更しよう。
-
-今の内容を全部これに置き換えてOK。
-
-{% extends "base.html" %}
-
-{% block title %}CareerHero Pro{% endblock %}
-
-{% block content %}
-
-<h2>⭐ CareerHero Pro</h2>
-
-<p>
-    CareerHeroをもっと便利に使えるProプランです。
-</p>
-
-<div class="ai-history-card">
-
     <h3>⭐ FreeとProの違い</h3>
 
     <table class="pro-table">
