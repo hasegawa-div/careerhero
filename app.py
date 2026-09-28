@@ -184,6 +184,13 @@ def init_db():
         """)
     except sqlite3.OperationalError:
         pass
+    try:
+        conn.execute("""
+            ALTER TABLE users
+            ADD COLUMN stripe_customer_id TEXT
+        """)
+    except sqlite3.OperationaIError:
+        pass
     conn.commit()
     conn.close()
     
