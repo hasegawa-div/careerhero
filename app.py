@@ -1815,6 +1815,20 @@ def company_analysis_history():
     if "username" not in session:
         return redirect(url_for("login"))
 
+    # Proプラン限定
+    conn = get_db()
+
+    user = conn.execute("""
+        SELECT is_pro
+        FROM users
+        WHERE id = ?
+    """, (session["user_id"],)).fetchone()
+
+    conn.close()
+
+    if user["is_pro"] != 1:
+        flash("企業分析履歴はCareerHero Pro限定です。")
+        return redirect(url_for("pro"))
     conn = get_db()
 
     histories = conn.execute("""

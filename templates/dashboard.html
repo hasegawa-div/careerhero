@@ -164,11 +164,20 @@
     </a>
 
     {% endif %}
+    {% if is_pro == 1 %}
     <a href="{{ url_for('company_analysis_history') }}">
         📚
         <strong>企業分析履歴</strong>
         <span>過去に行った企業分析を確認する</span>
     </a>
+    {% else %}
+    <a href="{{ url_for('company_analysis_history') }}">
+        🔒
+        <strong>企業分析履歴（Pro）</strong>
+        <span>CareerHero Proで利用できます</span>
+    </a>
+
+    {% endif %}
     <a href="{{ url_for('companies') }}">
         🏢
         <strong>応募企業管理</strong>
