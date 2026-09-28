@@ -740,6 +740,45 @@ def es_review():
 
     if request.method == "POST":
 
+
+        # =========================
+        # ES添削AIの1日利用回数チェック
+        # =========================
+
+        conn = get_db()
+
+        user = conn.execute("""
+            SELECT is_pro
+            FROM users
+            WHERE id = ?
+        """, (session["user_id"],)).fetchone()
+
+        today_count = conn.execute("""
+            SELECT COUNT(*)
+            FROM es_review_history
+            WHERE user_id = ?
+            AND DATE(created_at) = DATE('now')
+        """, (session["user_id"],)).fetchone()[0]
+
+        limit = 20 if user["is_pro"] == 1 else 3
+
+        if today_count >= limit:
+
+            conn.close()
+
+            flash(
+                f"ES添削AIは1日{limit}回まで利用できます。"
+            )
+        else:
+            flash(
+                "ES添削AIはFreeプランでは1日3回までです。"
+                " CareerHero Proにすると1日20回まで利用できます！"
+            )
+
+            return redirect(url_for("es_review"))
+
+        conn.close()
+
         company = request.form["company"]
         question = request.form["question"]
         es_text = request.form["es_text"]
@@ -1227,6 +1266,43 @@ def ai_interview():
 
         company_id = request.form.get("company_id")
 
+        # =========================
+        # AI面接練習の1日利用回数チェック
+        # =========================
+
+        conn = get_db()
+
+        user = conn.execute("""
+            SELECT is_pro
+            FROM users
+            WHERE id = ?
+        """, (session["user_id"],)).fetchone()
+
+        today_count = conn.execute("""
+            SELECT COUNT(*)
+            FROM mock_interview_sessions
+            WHERE user_id = ?
+            AND DATE(created_at) = DATE('now')
+        """, (session["user_id"],)).fetchone()[0]
+
+        limit = 5 if user["is_pro"] == 1 else 1
+
+        if today_count >= limit:
+
+            conn.close()
+
+            flash(
+                f"AI面接練習は1日{limit}回まで利用できます。"
+            )
+        else:
+            flash(
+                "AI面接練習はFreeプランでは1日1回までです。"
+                " CareerHero Proにすると1日5回まで利用できます！"
+            )
+
+            return redirect(url_for("ai_interview"))
+
+        conn.close()
         if not company_id:
             flash("企業を選択してください。")
             return redirect(url_for("ai_interview"))

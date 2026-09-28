@@ -43,3 +43,126 @@
 </a>
 
 {% endblock %}
+
+いいね。今の pro.html を、FreeとProの違いが一目で分かるページに変更しよう。
+
+今の内容を全部これに置き換えてOK。
+
+{% extends "base.html" %}
+
+{% block title %}CareerHero Pro{% endblock %}
+
+{% block content %}
+
+<h2>⭐ CareerHero Pro</h2>
+
+<p>
+    CareerHeroをもっと便利に使えるProプランです。
+</p>
+
+<div class="ai-history-card">
+
+    <h3>⭐ FreeとProの違い</h3>
+
+    <table class="pro-table">
+        <tr>
+            <th>機能</th>
+            <th>Free</th>
+            <th>Pro</th>
+        </tr>
+
+        <tr>
+            <td>🧠 自己分析</td>
+            <td>利用可能</td>
+            <td>利用可能</td>
+        </tr>
+
+        <tr>
+            <td>🤖 AI分析</td>
+            <td>利用可能</td>
+            <td>利用可能</td>
+        </tr>
+
+        <tr>
+            <td>📝 ガクチカ作成AI</td>
+            <td>利用可能</td>
+            <td>利用可能</td>
+        </tr>
+
+        <tr>
+            <td>📝 ES作成AI</td>
+            <td>1日3回</td>
+            <td>1日20回</td>
+        </tr>
+
+        <tr>
+            <td>✏️ ES添削AI</td>
+            <td>1日3回</td>
+            <td>1日20回</td>
+        </tr>
+
+        <tr>
+            <td>🎤 AI面接練習</td>
+            <td>1日1回</td>
+            <td>1日5回</td>
+        </tr>
+
+        <tr>
+            <td>🏢 応募企業管理</td>
+            <td>利用可能</td>
+            <td>利用可能</td>
+        </tr>
+
+        <tr>
+            <td>🏢 AI企業分析</td>
+            <td>利用不可</td>
+            <td>利用可能</td>
+        </tr>
+
+        <tr>
+            <td>📚 企業分析履歴</td>
+            <td>利用不可</td>
+            <td>利用可能</td>
+        </tr>
+
+    </table>
+
+</div>
+
+<br>
+
+<div class="ai-history-card">
+
+    <h3>⭐ CareerHero Proの料金</h3>
+
+    <div class="pro-price">
+        <div class="price">¥480</div>
+        <div class="unit">/ 月</div>
+    </div>
+    <p>
+        ES作成・添削やAI面接練習の利用回数が増え、
+        AI企業分析も利用できるようになります。
+    </p>
+
+</div>
+
+<br>
+<div class="pro-upgrade">
+    <form action="{{ url_for('create_checkout_session') }}" method="POST">
+
+    <button type="submit">
+        ⭐ CareerHero Proにアップグレード
+    </button>
+
+</form>
+
+</div>
+
+<br><br>
+
+<a href="{{ url_for('dashboard') }}">
+    ← ダッシュボードに戻る
+</a>
+
+{% endblock %}
+
