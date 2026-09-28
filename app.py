@@ -356,23 +356,19 @@ def self_analysis():
         return redirect(url_for("login"))
 
     if request.method == "POST":
+        # =========================
+        # 自己分析の回答を取得
+        # =========================
 
-        question1 = request.form["question1"]
-        question2 = request.form["question2"]
-        question3 = request.form["question3"]
-        question4 = request.form["question4"]
-        question5 = request.form["question5"]
-        question6 = request.form["question6"]
-        question7 = request.form["question7"]
-        question8 = request.form["question8"]
-        question9 = request.form["question9"]
-        question10 = request.form["question10"]
-        question11 = request.form["question11"]
-        question12 = request.form["question12"]
-        question13 = request.form["question13"]
-        question14 = request.form["question14"]
-        question15 = request.form["question15"]
+        answers = []
 
+        for i in range(1, 16):
+            answer = request.form[f"question{i}"]
+            answers.append(answer)
+
+        # =========================
+        # 自己分析をデータベースに保存
+        # =========================
 
         conn = get_db()
 
@@ -398,55 +394,31 @@ def self_analysis():
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             session["user_id"],
-            question1,
-            question2,
-            question3,
-            question4,
-            question5,
-            question6,
-            question7,
-            question8,
-            question9,
-            question10,
-            question11,
-            question12,
-            question13,
-            question14,
-            question15
+            answers[0],
+            answers[1],
+            answers[2],
+            answers[3],
+            answers[4],
+            answers[5],
+            answers[6],
+            answers[7],
+            answers[8],
+            answers[9],
+            answers[10],
+            answers[11],
+            answers[12],
+            answers[13],
+            answers[14]
         ))
 
         conn.commit()
         conn.close()
 
-        flash("自己分析を保存しました！")
+         # =========================
+        # AI分析用の文章
+        # =========================
 
-        return redirect(url_for("self_analysis"))
-
-    return render_template("self_analysis.html")
-@app.route("/ai-test")
-def ai_test():
-
-    response = client.responses.create(
-        model="gpt-5.6-luna",
-        input="こんにちは。あなたは就活をサポートするAIです。短く自己紹介してください。"
-    )
-
-    return response.output_text
-@app.route("/ai-analysis", methods=["POST"])
-def ai_analysis():
-
-    if "username" not in session:
-        return redirect(url_for("login"))
-
-    # フォームから15個の回答を取得
-    answers = []
-
-    for i in range(1, 16):
-        answer = request.form.get(f"question{i}", "")
-        answers.append(answer)
-
-    # AIに渡す文章
-    prompt = f"""
+        prompt = f"""
 あなたは大学生の就職活動をサポートするAIです。
 
 以下は、ある大学生が自己分析で回答した内容です。
@@ -482,34 +454,56 @@ def ai_analysis():
 大学生本人に直接アドバイスするような形で書いてください。
 """
 
+        # =========================
+        # AIに分析してもらう
+        # =========================
+
+        response = client.responses.create(
+            model="gpt-5.6-luna",
+            input=prompt
+        )
+
+        result = response.output_text
+
+        # =========================
+        # AI分析結果を保存
+        # =========================
+
+        conn = get_db()
+
+        conn.execute("""
+            INSERT INTO ai_analysis (user_id, result)
+            VALUES (?, ?)
+        """, (
+            session["user_id"],
+            result
+        ))
+
+        conn.commit()
+
+        print("DEBUG AI分析保存user_id:", session["user_id"])
+
+        conn.close()
+
+        # =========================
+        # AI分析結果を表示
+        # =========================
+
+        return render_template(
+            "ai_analysis.html",
+            result=result
+        )
+
+    return render_template("self_analysis.html")
+@app.route("/ai-test")
+def ai_test():
+
     response = client.responses.create(
         model="gpt-5.6-luna",
-        input=prompt
+        input="こんにちは。あなたは就活をサポートするAIです。短く自己紹介してください。"
     )
 
-    result = response.output_text
-
-    # AI分析結果をデータベースに保存
-    conn = get_db()
-
-    conn.execute("""
-        INSERT INTO ai_analysis (user_id, result)
-        VALUES (?, ?)
-    """, (
-        session["user_id"],
-        result
-    ))
-
-    conn.commit()
-
-    print("DEBUG AI分析保存user_id:", session["user_id"])
-
-    conn.close()
-
-    return render_template(
-        "ai_analysis.html",
-        result=result
-    )
+    return response.output_text
 @app.route("/ai-history")
 def ai_history():
 
