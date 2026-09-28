@@ -1966,6 +1966,10 @@ def stripe_webhook():
     payload = request.data
     sig_header = request.headers.get("Stripe-Signature")
 
+    print("SIGNATURE EXISTS:", sig_header is not None)
+    print("SIGNATURE PREFIX:", sig_header[:20] if sig_header else "NONE")
+    print("PAYLOAD LENGTH:", len(payload))
+
     webhook_secret = os.environ.get("STRIPE_WEBHOOK_SECRET")
 
     print("WEBHOOK SECRET EXISTS:", webhook_secret is not None)
