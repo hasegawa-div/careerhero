@@ -1974,9 +1974,11 @@ def stripe_webhook():
             sig_header,
             webhook_secret
         )
-    except ValueError:
+    except ValueError as e:
+        print("Webhook ValueError:", e)
         return "", 400
-    except stripe.error.SignatureVerificationError:
+    except stripe.error.SignatureVerificationError as e:
+        print("Webhook Signature:", e)
         return "", 400
 
     if event["type"] == "checkout.session.completed":
