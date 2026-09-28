@@ -1981,15 +1981,39 @@ def stripe_webhook():
         if username:
             conn = get_db()
 
+            customer_id = checkout_session.get("customer")
+
             conn.execute("""
                 UPDATE users
-                SET is_pro = 1
+                SET is_pro = 1,
+                    stripe_customer_id = ?
                 WHERE username = ?
-            """, (username,))
+            """, (
+                customer_id,
+                username))
 
             conn.commit()
             conn.close()
+    if event["type"] == "customer.subscription.deleted":
 
+        subscription = event["data"]["object"]
+
+        customer_id = subscription.get("customer")
+
+        if customer_id:
+
+            conn = get_db()
+
+            conn.execute("""
+                UPDATE users
+                SET is_pro = 0
+                WHERE stripe_customer_id = ?
+            """, (
+                customer_id,
+            ))
+
+            conn.commit()
+            conn.close()
     return "", 200
 @app.route("/")
 def index():
