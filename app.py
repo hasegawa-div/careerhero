@@ -309,14 +309,14 @@ def dashboard():
     if checkout_session_id and stripe.api_key:
         try:
             checkout = stripe.checkout.Session.retrieve(checkout_session_id)
-            if (checkout.get("client_reference_id") == session["username"]
-                    and checkout.get("mode") == "subscription"
-                    and checkout.get("payment_status") in ("paid", "no_payment_required")):
+            if (checkout.client_reference_id == session["username"]
+                    and checkout.mode == "subscription"
+                    and checkout.payment_status in ("paid", "no_payment_required")):
                 conn = get_db()
                 conn.execute("""
                     UPDATE users SET is_pro = 1, stripe_customer_id = ?
                     WHERE id = ?
-                """, (checkout.get("customer"), session["user_id"]))
+                """, (checkout.customer, session["user_id"]))
                 conn.commit()
                 conn.close()
         except stripe.StripeError as e:
@@ -2006,12 +2006,12 @@ def stripe_webhook():
 
         checkout_session = event["data"]["object"]
 
-        username = checkout_session.get("client_reference_id")
+        username = checkout_session.client_reference_id
 
-        if username and checkout_session.get("payment_status") in ("paid", "no_payment_required"):
+        if username and checkout_session.payment_status in ("paid", "no_payment_required"):
             conn = get_db()
 
-            customer_id = checkout_session.get("customer")
+            customer_id = checkout_session.customer
 
             conn.execute("""
                 UPDATE users
@@ -2028,7 +2028,7 @@ def stripe_webhook():
 
         subscription = event["data"]["object"]
 
-        customer_id = subscription.get("customer")
+        customer_id = subscription.customer
 
         if customer_id:
 
