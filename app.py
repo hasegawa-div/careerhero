@@ -189,7 +189,7 @@ def init_db():
             ALTER TABLE users
             ADD COLUMN stripe_customer_id TEXT
         """)
-    except sqlite3.OperationaIError:
+    except sqlite3.OperationalError:
         pass
     conn.commit()
     conn.close()
@@ -302,6 +302,25 @@ def dashboard():
     if "username" not in session:
         return redirect(url_for("login"))
 
+
+    # Stripeから戻った直後はWebhookの到着より先に画面が表示されることがある。
+    # Checkout SessionをStripeで確認してからPro状態を反映する。
+    checkout_session_id = request.args.get("session_id")
+    if checkout_session_id and stripe.api_key:
+        try:
+            checkout = stripe.checkout.Session.retrieve(checkout_session_id)
+            if (checkout.get("client_reference_id") == session["username"]
+                    and checkout.get("mode") == "subscription"
+                    and checkout.get("payment_status") in ("paid", "no_payment_required")):
+                conn = get_db()
+                conn.execute("""
+                    UPDATE users SET is_pro = 1, stripe_customer_id = ?
+                    WHERE id = ?
+                """, (checkout.get("customer"), session["user_id"]))
+                conn.commit()
+                conn.close()
+        except stripe.StripeError as e:
+            app.logger.warning("Could not verify Stripe Checkout Session: %s", e)
 
     conn = get_db()
 
@@ -1955,7 +1974,7 @@ def create_checkout_session():
         ],
         mode="subscription",
         client_reference_id=session["username"],
-        success_url=url_for("dashboard", _external=True),
+        success_url=url_for("dashboard", _external=True) + "?session_id={CHECKOUT_SESSION_ID}",
         cancel_url=url_for("pro", _external=True),
     )
 
@@ -1966,15 +1985,10 @@ def stripe_webhook():
     payload = request.data
     sig_header = request.headers.get("Stripe-Signature")
 
-    print("SIGNATURE EXISTS:", sig_header is not None)
-    print("SIGNATURE PREFIX:", sig_header[:20] if sig_header else "NONE")
-    print("PAYLOAD LENGTH:", len(payload))
-
     webhook_secret = os.environ.get("STRIPE_WEBHOOK_SECRET")
-
-    print("WEBHOOK SECRET EXISTS:", webhook_secret is not None)
-    print("WEBHOOK SECRET LENGTH:", len(webhook_secret) if webhook_secret else 0)
-    print("WEBHOOK SECRET PREFIX:", webhook_secret[:7] if webhook_secret else "NONE")
+    if not webhook_secret or not sig_header:
+        app.logger.error("Stripe webhook secret or signature is missing")
+        return "", 400
 
     try:
         event = stripe.Webhook.construct_event(
@@ -1983,10 +1997,10 @@ def stripe_webhook():
             webhook_secret
         )
     except ValueError as e:
-        print("Webhook ValueError:", e)
+        app.logger.warning("Invalid Stripe webhook payload: %s", e)
         return "", 400
     except stripe.error.SignatureVerificationError as e:
-        print("Webhook Signature:", e)
+        app.logger.warning("Invalid Stripe webhook signature: %s", e)
         return "", 400
 
     if event["type"] == "checkout.session.completed":
@@ -1995,7 +2009,7 @@ def stripe_webhook():
 
         username = checkout_session.get("client_reference_id")
 
-        if username:
+        if username and checkout_session.get("payment_status") in ("paid", "no_payment_required"):
             conn = get_db()
 
             customer_id = checkout_session.get("customer")
