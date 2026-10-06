@@ -188,4 +188,14 @@
 
 </div>
 
+{% if is_pro != 1 %}
+<aside class="dashboard-ad-slot" aria-label="広告">
+    <span class="dashboard-ad-label">広告</span>
+    <div class="dashboard-ad-content">
+        <!-- AdSenseの広告ユニットコードをここに設定 -->
+        広告掲載スペース
+    </div>
+</aside>
+{% endif %}
+
 {% endblock %}
